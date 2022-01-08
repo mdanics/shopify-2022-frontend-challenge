@@ -1,15 +1,24 @@
 import { Card, Button, ActionList, DatePicker } from "@shopify/polaris";
 
+import {
+  SortDescendingMajor,
+  HeartMajor,
+  CalendarMajor,
+} from "@shopify/polaris-icons";
+
 import { useCallback, useState } from "react";
+
+enum ViewMode {
+  ENDLESS,
+  LIKED,
+  START_DATE,
+}
 
 const ModeSelector = () => {
   const [popoverActive, setPopoverActive] = useState(true);
-  const [endlessMode, setEndlessMode] = useState(true);
+  const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.ENDLESS);
 
-  const toggleEndlessMode = useCallback(
-    () => setEndlessMode((endlessMode) => !endlessMode),
-    []
-  );
+  const setMode = useCallback((mode: ViewMode) => setViewMode(mode), []);
 
   const togglePopoverActive = useCallback(
     () => setPopoverActive((popoverActive) => !popoverActive),
@@ -17,6 +26,8 @@ const ModeSelector = () => {
   );
 
   const [{ month, year }, setDate] = useState({ month: 1, year: 2018 });
+
+  const handleFilterSelect = () => {};
 
   const handleMonthChange = useCallback(
     (month, year) => setDate({ month, year }),
@@ -42,13 +53,21 @@ const ModeSelector = () => {
               items: [
                 {
                   content: "Endless",
-                  onAction: () => setEndlessMode(true),
-                  active: endlessMode,
+                  icon: SortDescendingMajor,
+                  onAction: () => setMode(ViewMode.ENDLESS),
+                  active: viewMode == ViewMode.ENDLESS,
+                },
+                {
+                  content: "My Liked Posts",
+                  icon: HeartMajor,
+                  onAction: () => setMode(ViewMode.LIKED),
+                  active: viewMode == ViewMode.LIKED,
                 },
                 {
                   content: "Select Start Date",
-                  onAction: () => setEndlessMode(false),
-                  active: !endlessMode,
+                  icon: CalendarMajor,
+                  onAction: () => setMode(ViewMode.START_DATE),
+                  active: viewMode == ViewMode.START_DATE,
                 },
               ],
             },
@@ -56,7 +75,7 @@ const ModeSelector = () => {
         />
       </Card.Section>
       <Card.Section>
-        {!endlessMode && (
+        {viewMode == ViewMode.START_DATE && (
           <DatePicker
             month={month}
             year={year}

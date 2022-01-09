@@ -52,7 +52,7 @@ const PostCard = ({ post }: PostCardProps) => {
         <Card.Section>
           <Stack vertical spacing="tight">
             <Heading>
-              {post.title} | ${post.date} | new
+              {post.title} | {post.date}
             </Heading>
             <p> {post.explanation} </p>
 
@@ -62,23 +62,6 @@ const PostCard = ({ post }: PostCardProps) => {
           </Stack>
         </Card.Section>
       </Card>
-      <MediaCard
-        title={`${post.title} | ${post.date}`}
-        description={post.explanation}
-        portrait
-        primaryAction={primaryAction}
-      >
-        <img
-          src={post.url}
-          alt={post.title}
-          width="100%"
-          height="100%"
-          style={{
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-        />
-      </MediaCard>
     </>
   );
 };

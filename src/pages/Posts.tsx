@@ -12,7 +12,6 @@ import Post from "../interfaces/Post";
 import PostCard from "../components/PostCard";
 import ModeSelector, { ViewModes } from "../components/ModeSelector";
 import usePosts from "../hooks/usePosts";
-import { Loading } from "@shopify/polaris/build/ts/latest/src/components/Frame/components";
 
 const Posts = () => {
   const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.ENDLESS);

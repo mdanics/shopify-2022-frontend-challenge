@@ -7,3 +7,26 @@
 .Action {
   padding-top: 16px;
 }
+
+/* https://github.com/Shopify/polaris-react/blob/505f5fd207c893c2977a8c1fc0c3a8e718a7dd13/src/styles/shared/_skeleton.scss#L32 */
+.SkeletonImage {
+  position: relative;
+  height: 500px;
+  width: 100%;
+}
+
+.SkeletonImage::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  background-color: var(--p-surface-neutral);
+  border-radius: border-radius();
+
+  @media screen and (-ms-high-contrast: active) {
+    background-color: ms-high-contrast-color("disabled-text");
+  }
+}

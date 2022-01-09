@@ -35,34 +35,33 @@ const PostCard = ({ post }: PostCardProps) => {
       };
 
   return (
-    <>
-      <Card>
-        <div className={styles.PostImageContainer}>
-          <img
-            src={post.url}
-            alt={post.title}
-            width="100%"
-            height="100%"
-            style={{
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
-        </div>
-        <Card.Section>
-          <Stack vertical spacing="tight">
-            <Heading>
-              {post.title} | {post.date}
-            </Heading>
-            <p> {post.explanation} </p>
+    <Card>
+      <div className={styles.PostImageContainer}>
+        <img
+          src={post.url}
+          alt={post.title}
+          width="100%"
+          height="100%"
+          style={{
+            objectFit: "cover",
+            objectPosition: "center",
+            minHeight: 500,
+          }}
+        />
+      </div>
+      <Card.Section>
+        <Stack vertical spacing="tight">
+          <Heading>
+            {post.title} | {post.date}
+          </Heading>
+          <p> {post.explanation} </p>
 
-            <div className={styles.Action}>
-              <ButtonGroup>{buttonFrom(primaryAction)}</ButtonGroup>
-            </div>
-          </Stack>
-        </Card.Section>
-      </Card>
-    </>
+          <div className={styles.Action}>
+            <ButtonGroup>{buttonFrom(primaryAction)}</ButtonGroup>
+          </div>
+        </Stack>
+      </Card.Section>
+    </Card>
   );
 };
 

@@ -21,7 +21,7 @@ const usePosts = () => {
       setIsFetching(true);
 
       const data = await fetch(
-        "https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&count=2"
+        "https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&count=3"
       );
       const posts: Post[] = await data.json();
 

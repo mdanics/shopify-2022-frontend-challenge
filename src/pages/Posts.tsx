@@ -1,14 +1,25 @@
-import { FooterHelp, Layout, Link, Page } from "@shopify/polaris";
+import { useCallback, useState } from "react";
+import {
+  Button,
+  FooterHelp,
+  Layout,
+  Link,
+  Page,
+  Spinner,
+  Stack,
+} from "@shopify/polaris";
 import Post from "../interfaces/Post";
 import PostCard from "../components/PostCard";
-import ModeSelector from "../components/ModeSelector";
+import ModeSelector, { ViewModes } from "../components/ModeSelector";
 import usePosts from "../hooks/usePosts";
+import { Loading } from "@shopify/polaris/build/ts/latest/src/components/Frame/components";
 
 const Posts = () => {
-  const { posts, error, isLoading } = usePosts();
+  const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.ENDLESS);
 
-  if (isLoading) return <div> loading -todo use skeletons </div>;
-  console.log({ posts });
+  const setMode = useCallback((mode: ViewModes) => setViewMode(mode), []);
+
+  const { posts, error, isLoading, isFetching } = usePosts();
 
   return (
     <Page
@@ -18,15 +29,24 @@ const Posts = () => {
     >
       <Layout>
         <Layout.Section secondary>
-          <ModeSelector />
+          <ModeSelector viewMode={viewMode} setMode={setMode} />
         </Layout.Section>
         <Layout.Section>
+          {isLoading && <h1> show skeletons</h1>}
           {posts?.map((post: Post) => (
-            <PostCard post={post} />
+            <PostCard post={post} key={post.url} />
           ))}
+          {isFetching && (
+            <div style={{ paddingTop: 16 }}>
+              <Stack distribution="center">
+                <Spinner accessibilityLabel="Loading more posts" />
+              </Stack>
+            </div>
+          )}
         </Layout.Section>
 
         <Layout.Section>
+          {/* <Button onClick={() => setSize(size + 1)}> More </Button> */}
           <FooterHelp>Wow you reached the bottom!</FooterHelp>
         </Layout.Section>
       </Layout>

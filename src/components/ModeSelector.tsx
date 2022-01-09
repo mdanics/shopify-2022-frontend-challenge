@@ -8,17 +8,19 @@ import {
 
 import { useCallback, useState } from "react";
 
-enum ViewMode {
+export enum ViewModes {
   ENDLESS,
   LIKED,
   START_DATE,
 }
 
-const ModeSelector = () => {
-  const [popoverActive, setPopoverActive] = useState(true);
-  const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.ENDLESS);
+interface ModeSelectorProps {
+  viewMode: ViewModes;
+  setMode: (mode: ViewModes) => void;
+}
 
-  const setMode = useCallback((mode: ViewMode) => setViewMode(mode), []);
+const ModeSelector = ({ viewMode, setMode }: ModeSelectorProps) => {
+  const [popoverActive, setPopoverActive] = useState(true);
 
   const togglePopoverActive = useCallback(
     () => setPopoverActive((popoverActive) => !popoverActive),
@@ -54,20 +56,20 @@ const ModeSelector = () => {
                 {
                   content: "Endless",
                   icon: SortDescendingMajor,
-                  onAction: () => setMode(ViewMode.ENDLESS),
-                  active: viewMode == ViewMode.ENDLESS,
+                  onAction: () => setMode(ViewModes.ENDLESS),
+                  active: viewMode == ViewModes.ENDLESS,
                 },
                 {
                   content: "My Liked Posts",
                   icon: HeartMajor,
-                  onAction: () => setMode(ViewMode.LIKED),
-                  active: viewMode == ViewMode.LIKED,
+                  onAction: () => setMode(ViewModes.LIKED),
+                  active: viewMode == ViewModes.LIKED,
                 },
                 {
                   content: "Select Start Date",
                   icon: CalendarMajor,
-                  onAction: () => setMode(ViewMode.START_DATE),
-                  active: viewMode == ViewMode.START_DATE,
+                  onAction: () => setMode(ViewModes.START_DATE),
+                  active: viewMode == ViewModes.START_DATE,
                 },
               ],
             },
@@ -75,7 +77,7 @@ const ModeSelector = () => {
         />
       </Card.Section>
       <Card.Section>
-        {viewMode == ViewMode.START_DATE && (
+        {viewMode == ViewModes.START_DATE && (
           <DatePicker
             month={month}
             year={year}

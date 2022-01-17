@@ -1,4 +1,4 @@
-import { Card, Button, ActionList, DatePicker } from "@shopify/polaris";
+import { Card, Button, ActionList, DatePicker, Range } from "@shopify/polaris";
 
 import {
   SortDescendingMajor,
@@ -7,57 +7,41 @@ import {
 } from "@shopify/polaris-icons";
 
 import { useCallback, useState } from "react";
+import { formatDate, useFirstAPODDate } from "../utils/DateUtils";
+import FeedDatePicker from "./FeedDatePicker";
 
 export enum ViewModes {
-  ENDLESS,
+  BROWSE,
   LIKED,
-  START_DATE,
 }
 
-interface ModeSelectorProps {
+export interface ModeSelectorProps {
   viewMode: ViewModes;
   setMode: (mode: ViewModes) => void;
+  setSelectedDates: (date: Range) => void;
+  selectedDates: Range;
 }
 
-const ModeSelector = ({ viewMode, setMode }: ModeSelectorProps) => {
-  const [popoverActive, setPopoverActive] = useState(true);
-
-  const togglePopoverActive = useCallback(
-    () => setPopoverActive((popoverActive) => !popoverActive),
-    []
-  );
-
-  const [{ month, year }, setDate] = useState({ month: 1, year: 2018 });
-
-  const handleFilterSelect = () => {};
-
-  const handleMonthChange = useCallback(
-    (month, year) => setDate({ month, year }),
-    []
-  );
-
-  const activator = (
-    <Button onClick={togglePopoverActive} disclosure>
-      Scroll Mode
-    </Button>
-  );
-
+const ModeSelector = ({
+  viewMode,
+  setMode,
+  setSelectedDates,
+  selectedDates,
+}: ModeSelectorProps) => {
   return (
-    <Card title="Spacestagram Settings">
+    <Card title="Settings">
       <Card.Section>
-        <p>
-          Choose either endless scroll mode or pictures starting at a certain
-          date
-        </p>
+        <p>Select a date to start exploring from or view your Liked Posts</p>
         <ActionList
           sections={[
             {
               items: [
                 {
                   content: "Endless",
+                  helpText: "Starting: " + formatDate(selectedDates.end),
                   icon: SortDescendingMajor,
-                  onAction: () => setMode(ViewModes.ENDLESS),
-                  active: viewMode == ViewModes.ENDLESS,
+                  onAction: () => setMode(ViewModes.BROWSE),
+                  active: viewMode == ViewModes.BROWSE,
                 },
                 {
                   content: "My Liked Posts",
@@ -65,26 +49,19 @@ const ModeSelector = ({ viewMode, setMode }: ModeSelectorProps) => {
                   onAction: () => setMode(ViewModes.LIKED),
                   active: viewMode == ViewModes.LIKED,
                 },
-                {
-                  content: "Select Start Date",
-                  icon: CalendarMajor,
-                  onAction: () => setMode(ViewModes.START_DATE),
-                  active: viewMode == ViewModes.START_DATE,
-                },
               ],
             },
           ]}
         />
       </Card.Section>
-      <Card.Section>
-        {viewMode == ViewModes.START_DATE && (
-          <DatePicker
-            month={month}
-            year={year}
-            onMonthChange={handleMonthChange}
+      {viewMode == ViewModes.BROWSE && (
+        <Card.Section title="Select Start Date" subdued>
+          <FeedDatePicker
+            selectedDates={selectedDates}
+            setSelectedDates={setSelectedDates}
           />
-        )}
-      </Card.Section>
+        </Card.Section>
+      )}
     </Card>
   );
 };

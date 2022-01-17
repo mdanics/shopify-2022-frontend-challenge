@@ -1,12 +1,20 @@
 import { useEffect, useState, useRef, useReducer } from "react";
 import Post from "../interfaces/Post";
+import { formatDate, subtractDays, useFirstAPODDate } from "../utils/DateUtils";
 
 export interface usePostsProps {
-  endlessScroll: boolean;
+  shouldFetch: boolean;
+  endDate?: Date;
 }
 
-const usePosts = ({ endlessScroll }: usePostsProps) => {
+const FETCH_DAYS = 4;
+
+const usePosts = ({ endDate = new Date() }: usePostsProps) => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const firstAPODDate = useFirstAPODDate();
+
+  const endDateRef = useRef(endDate);
+  const startDateRef = useRef(subtractDays(endDate, FETCH_DAYS));
 
   const isFetchingRef = useRef(false);
   // useReducer with to keep isFetchingRef value consistent with isFetching
@@ -20,18 +28,44 @@ const usePosts = ({ endlessScroll }: usePostsProps) => {
   );
 
   const fetchPosts = async () => {
-    // prevent multiple fetches when at bottom of the page
-    if (!isFetchingRef.current) {
-      setIsFetching(true);
+    // ensure user hasn't scrolled past the first day
+    console.log("bbbbb");
+
+    setIsFetching(true);
+    if (startDateRef.current >= firstAPODDate) {
+      const formattedStartDate = formatDate(startDateRef.current);
+      const formattedEndDate = formatDate(endDateRef.current);
 
       console.log("fetching posts...");
       const data = await fetch(
-        "https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&count=3"
+        `https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
       );
       const posts: Post[] = await data.json();
 
-      setPosts((oldPosts) => [...oldPosts, ...posts]);
-      setIsFetching(false);
+      const reversedPosts = posts.reverse(); // reverse so most recent is first
+      console.log("hyn", { reversedPosts });
+
+      setPosts((oldPosts) => [...oldPosts, ...reversedPosts]);
+      console.log("yum", { posts });
+    } else {
+      // todo - handle error
+      console.error("error - startDateRef.current >= firstAPODDate is false ");
+    }
+    setIsFetching(false);
+  };
+
+  const fetchMorePosts = async () => {
+    console.log("aaaaa");
+    // prevent multiple fetches when at bottom of the page
+    if (!isFetchingRef.current) {
+      // move the date range by FETCH_DAYS
+      endDateRef.current = subtractDays(endDateRef.current, FETCH_DAYS + 1);
+      startDateRef.current = subtractDays(startDateRef.current, FETCH_DAYS + 1);
+
+      fetchPosts();
+    } else {
+      console.error("    if (!isFetchingRef.current)   ");
+      // TODO - handle error
     }
   };
 
@@ -43,25 +77,30 @@ const usePosts = ({ endlessScroll }: usePostsProps) => {
 
     if (isAtBottom) {
       // fetch new posts if we're at the bottom
-      fetchPosts();
+      fetchMorePosts();
     }
   };
 
-  // fetch posts on load
+  // fetch posts on load and refresh on a date change
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (endDate != endDateRef.current) {
+      endDateRef.current = endDate;
+      startDateRef.current = subtractDays(endDate, FETCH_DAYS);
 
-  // setup endless scroll event listener
-  useEffect(() => {
-    if (endlessScroll) {
-      window.addEventListener("scroll", handleScroll);
-      // on component dismount
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
+      setPosts([]);
     }
-  }, [endlessScroll]);
+
+    fetchPosts();
+
+    // setup endless scroll event listener
+    window.addEventListener("scroll", handleScroll);
+    // on component dismount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+
+    console.log("end date changed", endDate);
+  }, [endDate]);
 
   return {
     posts,

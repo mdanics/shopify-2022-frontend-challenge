@@ -18,7 +18,9 @@ const PostFeed = ({
   unsaveLikePost,
 }: PostFeedProps) => {
   const skeletonPosts = [];
-  for (let i = 0; i < 3; i++) skeletonPosts.push(<SkeletonPostCard />);
+  for (let i = 0; i < 3; i++) skeletonPosts.push(<SkeletonPostCard key={i} />);
+
+  console.log("PostFeed", { isFetching, posts });
 
   return (
     <>

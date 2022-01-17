@@ -16,13 +16,18 @@ import SkeletonPostCard from "../components/SkeletonPostCard";
 import PostFeed from "../components/PostFeed";
 
 const Posts = () => {
-  const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.ENDLESS);
+  const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.BROWSE);
+
+  const [selectedDates, setSelectedDates] = useState({
+    start: new Date(),
+    end: new Date(),
+  });
+
   const [likedPosts, setLikedPosts] = useState<Post[]>([]);
 
-  const setMode = useCallback((mode: ViewModes) => setViewMode(mode), []);
-
   const { posts, error, isLoading, isFetching } = usePosts({
-    endlessScroll: viewMode === ViewModes.ENDLESS,
+    shouldFetch: viewMode === ViewModes.BROWSE, // todo - can prob remove this or consolidate
+    endDate: selectedDates.end,
   });
 
   // todo - possibly condense to a useReducer
@@ -36,6 +41,8 @@ const Posts = () => {
     setLikedPosts(newPosts);
   };
 
+  console.log("posts", viewMode === ViewModes.BROWSE, { isFetching, viewMode });
+
   return (
     <Page
       title="Spacestagram"
@@ -44,10 +51,15 @@ const Posts = () => {
     >
       <Layout>
         <Layout.Section secondary>
-          <ModeSelector viewMode={viewMode} setMode={setMode} />
+          <ModeSelector
+            viewMode={viewMode}
+            setMode={setViewMode}
+            selectedDates={selectedDates}
+            setSelectedDates={setSelectedDates}
+          />
         </Layout.Section>
         <Layout.Section>
-          {viewMode === ViewModes.ENDLESS && (
+          {viewMode === ViewModes.BROWSE && (
             <PostFeed
               posts={posts}
               isFetching={isFetching}
@@ -58,6 +70,7 @@ const Posts = () => {
           {viewMode === ViewModes.LIKED && (
             <PostFeed
               posts={likedPosts}
+              isFetching={true}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}
             />

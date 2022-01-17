@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Button,
   FooterHelp,
@@ -15,6 +15,10 @@ import usePosts from "../hooks/usePosts";
 import SkeletonPostCard from "../components/SkeletonPostCard";
 import PostFeed from "../components/PostFeed";
 
+interface x {
+  [id: string]: Post;
+}
+
 const Posts = () => {
   const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.BROWSE);
 
@@ -23,7 +27,8 @@ const Posts = () => {
     end: new Date(),
   });
 
-  const [likedPosts, setLikedPosts] = useState<Post[]>([]);
+  const [likedPosts, setLikedPosts] = useState<x>({});
+  const [displayPosts, setDisplayPosts] = useState<Post[]>([]);
 
   const { posts, error, isLoading, isFetching } = usePosts({
     shouldFetch: viewMode === ViewModes.BROWSE, // todo - can prob remove this or consolidate
@@ -32,14 +37,31 @@ const Posts = () => {
 
   // todo - possibly condense to a useReducer
   const likePost = (post: Post) => {
-    setLikedPosts((oldPosts) => [...oldPosts, post]);
+    setLikedPosts((oldPosts) => {
+      return { ...oldPosts, [post.url]: post };
+    });
     console.log({ post, likedPosts });
   };
 
   const unlikePost = (post: Post) => {
-    const newPosts = likedPosts.filter((p) => p.url != post.url);
-    setLikedPosts(newPosts);
+    setLikedPosts((oldPosts) => {
+      const newPosts = { ...oldPosts };
+      delete newPosts[post.url];
+
+      return newPosts;
+    });
   };
+
+  useEffect(() => {
+    const postsWithLikes: Post[] = posts.map((post) => {
+      return {
+        ...post,
+        liked: likedPosts[post.url] != null,
+      };
+    });
+
+    setDisplayPosts(postsWithLikes);
+  }, [likedPosts, posts]);
 
   console.log("posts", viewMode === ViewModes.BROWSE, { isFetching, viewMode });
 
@@ -61,7 +83,7 @@ const Posts = () => {
         <Layout.Section>
           {viewMode === ViewModes.BROWSE && (
             <PostFeed
-              posts={posts}
+              posts={displayPosts}
               isFetching={isFetching}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}
@@ -69,7 +91,7 @@ const Posts = () => {
           )}
           {viewMode === ViewModes.LIKED && (
             <PostFeed
-              posts={likedPosts}
+              posts={Object.values(likedPosts)}
               isFetching={true}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}

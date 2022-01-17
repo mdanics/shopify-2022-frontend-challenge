@@ -19,10 +19,9 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(post.liked);
 
   const handleLike = useCallback(() => {
-    setLiked((liked) => !liked);
     if (liked) {
       // post is already liked so remove it from liked posts
       unsaveLikePost(post);
@@ -30,7 +29,9 @@ const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
       // post has not been liked, so add it to the liked posts
       saveLikedPost(post);
     }
-  }, []);
+
+    setLiked((liked) => !liked);
+  }, [liked]);
 
   const primaryAction: ComplexAction | undefined = !liked
     ? {

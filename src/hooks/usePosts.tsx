@@ -1,7 +1,11 @@
 import { useEffect, useState, useRef, useReducer } from "react";
 import Post from "../interfaces/Post";
 
-const usePosts = () => {
+export interface usePostsProps {
+  endlessScroll: boolean;
+}
+
+const usePosts = ({ endlessScroll }: usePostsProps) => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   const isFetchingRef = useRef(false);
@@ -20,6 +24,7 @@ const usePosts = () => {
     if (!isFetchingRef.current) {
       setIsFetching(true);
 
+      console.log("fetching posts...");
       const data = await fetch(
         "https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&count=3"
       );
@@ -42,14 +47,21 @@ const usePosts = () => {
     }
   };
 
+  // fetch posts on load
   useEffect(() => {
     fetchPosts();
-    window.addEventListener("scroll", handleScroll);
-    // on component dismount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
+
+  // setup endless scroll event listener
+  useEffect(() => {
+    if (endlessScroll) {
+      window.addEventListener("scroll", handleScroll);
+      // on component dismount
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [endlessScroll]);
 
   return {
     posts,

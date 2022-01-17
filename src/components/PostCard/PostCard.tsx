@@ -14,11 +14,23 @@ import { ThumbsUpMajor } from "@shopify/polaris-icons";
 import styles from "./PostCard.module.css";
 interface PostCardProps {
   post: Post;
+  saveLikedPost: (post: Post) => void;
+  unsaveLikePost: (post: Post) => void;
 }
 
-const PostCard = ({ post }: PostCardProps) => {
+const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
   const [liked, setLiked] = useState(false);
-  const handleLike = useCallback(() => setLiked((liked) => !liked), []);
+
+  const handleLike = useCallback(() => {
+    setLiked((liked) => !liked);
+    if (liked) {
+      // post is already liked so remove it from liked posts
+      unsaveLikePost(post);
+    } else {
+      // post has not been liked, so add it to the liked posts
+      saveLikedPost(post);
+    }
+  }, []);
 
   const primaryAction: ComplexAction | undefined = !liked
     ? {

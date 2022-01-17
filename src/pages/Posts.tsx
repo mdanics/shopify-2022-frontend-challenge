@@ -13,16 +13,28 @@ import PostCard from "../components/PostCard";
 import ModeSelector, { ViewModes } from "../components/ModeSelector";
 import usePosts from "../hooks/usePosts";
 import SkeletonPostCard from "../components/SkeletonPostCard";
+import PostFeed from "../components/PostFeed";
 
 const Posts = () => {
   const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.ENDLESS);
+  const [likedPosts, setLikedPosts] = useState<Post[]>([]);
 
   const setMode = useCallback((mode: ViewModes) => setViewMode(mode), []);
 
-  const { posts, error, isLoading, isFetching } = usePosts();
+  const { posts, error, isLoading, isFetching } = usePosts({
+    endlessScroll: viewMode === ViewModes.ENDLESS,
+  });
 
-  const skeletonPosts = [];
-  for (let i = 0; i < 3; i++) skeletonPosts.push(<SkeletonPostCard />);
+  // todo - possibly condense to a useReducer
+  const likePost = (post: Post) => {
+    setLikedPosts((oldPosts) => [...oldPosts, post]);
+    console.log({ post, likedPosts });
+  };
+
+  const unlikePost = (post: Post) => {
+    const newPosts = likedPosts.filter((p) => p.url != post.url);
+    setLikedPosts(newPosts);
+  };
 
   return (
     <Page
@@ -35,23 +47,24 @@ const Posts = () => {
           <ModeSelector viewMode={viewMode} setMode={setMode} />
         </Layout.Section>
         <Layout.Section>
-          {posts?.map((post: Post) => (
-            <PostCard post={post} key={post.url} />
-          ))}
-          {isFetching && (
-            <>
-              {skeletonPosts}
-              <div style={{ paddingTop: 16 }}>
-                <Stack distribution="center">
-                  <Spinner accessibilityLabel="Loading more posts" />
-                </Stack>
-              </div>
-            </>
+          {viewMode === ViewModes.ENDLESS && (
+            <PostFeed
+              posts={posts}
+              isFetching={isFetching}
+              saveLikedPost={likePost}
+              unsaveLikePost={unlikePost}
+            />
+          )}
+          {viewMode === ViewModes.LIKED && (
+            <PostFeed
+              posts={likedPosts}
+              saveLikedPost={likePost}
+              unsaveLikePost={unlikePost}
+            />
           )}
         </Layout.Section>
 
         <Layout.Section>
-          {/* <Button onClick={() => setSize(size + 1)}> More </Button> */}
           <FooterHelp>Wow you reached the bottom!</FooterHelp>
         </Layout.Section>
       </Layout>

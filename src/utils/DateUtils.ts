@@ -17,7 +17,15 @@ export const formatDate = (date: Date): string => {
     })
     .split("/");
 
-  return `${estTime[2]}-${estTime[0]}-${estTime[1]}`;
+  let month = estTime[0];
+  let day = estTime[1];
+  let year = estTime[2];
+
+  // add leading 0 for single digit months/days
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return `${year}-${month}-${day}`;
 };
 
 // returns the first date that APOD started

@@ -48,14 +48,12 @@ const Posts = () => {
     >
       <Layout>
         <Layout.Section secondary>
-          {/* <FadeIn> */}
           <ModeSelector
             viewMode={viewMode}
             setMode={setViewMode}
             selectedDates={selectedDates}
             setSelectedDates={setSelectedDates}
           />
-          {/* </FadeIn> */}
         </Layout.Section>
         <Layout.Section>
           {viewMode === ViewModes.BROWSE && (

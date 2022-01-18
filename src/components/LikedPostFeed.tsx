@@ -1,4 +1,4 @@
-import { EmptyState } from "@shopify/polaris";
+import { Card, EmptyState } from "@shopify/polaris";
 import Post from "../interfaces/Post";
 import PostFeed, { PostFeedProps } from "./PostFeed";
 import EmptyStateImage from "../images/LikesEmptyState.png";
@@ -11,16 +11,20 @@ const LikedPostFeed = (props: PostFeedProps) => {
   console.log("here we are", posts);
   if (!posts || posts.length === 0) {
     return (
-      <EmptyState
-        image={EmptyStateImage}
-        action={{ content: "Explore", icon: SearchMinor }}
-        heading="Explore posts"
-      >
-        <p>
-          You haven't like any posts yet. Check out the Explore tab to view
-          posts and like your favourite ones.
-        </p>
-      </EmptyState>
+      <Card>
+        <Card.Section>
+          <EmptyState
+            image={EmptyStateImage}
+            action={{ content: "Explore", icon: SearchMinor }}
+            heading="Explore posts"
+          >
+            <p>
+              You haven't like any posts yet. Check out the Explore tab to view
+              posts and like your favourite ones.
+            </p>
+          </EmptyState>
+        </Card.Section>
+      </Card>
     );
   }
 

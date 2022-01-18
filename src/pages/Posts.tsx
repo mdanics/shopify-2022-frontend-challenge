@@ -53,6 +53,20 @@ const Posts = () => {
     });
   };
 
+  // fetch existing likes from local storage
+  useEffect(() => {
+    const likes = localStorage.getItem("likes");
+    if (likes) {
+      setLikedPosts(JSON.parse(likes));
+    }
+  }, []);
+
+  // save liked posts to localstorage to persist on refresh
+  useEffect(() => {
+    localStorage.setItem("likes", JSON.stringify(likedPosts));
+  }, [likedPosts]);
+
+  // update posts that have been liked
   useEffect(() => {
     const postsWithLikes: Post[] = posts.map((post) => {
       return {

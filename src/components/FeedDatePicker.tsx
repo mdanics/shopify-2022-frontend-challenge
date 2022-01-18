@@ -43,6 +43,11 @@ const FeedDatePicker = ({
     }
   }, []);
 
+  const handleDatePickerChange = (date: Range) => {
+    setSelectedDates(date);
+    setTextFieldValue(formatDate(date.start));
+  };
+
   return (
     <Stack vertical>
       <TextField
@@ -58,7 +63,7 @@ const FeedDatePicker = ({
         month={month}
         year={year}
         onMonthChange={handleMonthChange}
-        onChange={setSelectedDates}
+        onChange={handleDatePickerChange}
         selected={selectedDates}
         disableDatesAfter={currentDate}
         disableDatesBefore={firstAPODDate}

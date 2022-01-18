@@ -38,17 +38,17 @@ const ModeSelector = ({
             {
               items: [
                 {
+                  content: "My Liked Posts",
+                  icon: HeartMajor,
+                  onAction: () => setMode(ViewModes.LIKED),
+                  active: viewMode == ViewModes.LIKED,
+                },
+                {
                   content: "Explore",
                   helpText: "Starting: " + formatDate(selectedDates.end),
                   icon: SearchMajor,
                   onAction: () => setMode(ViewModes.BROWSE),
                   active: viewMode == ViewModes.BROWSE,
-                },
-                {
-                  content: "My Liked Posts",
-                  icon: HeartMajor,
-                  onAction: () => setMode(ViewModes.LIKED),
-                  active: viewMode == ViewModes.LIKED,
                 },
               ],
             },
@@ -56,7 +56,7 @@ const ModeSelector = ({
         />
       </Card.Section>
       {viewMode == ViewModes.BROWSE && (
-        <Card.Section title="Select Start Date" subdued>
+        <Card.Section subdued>
           <FeedDatePicker
             selectedDates={selectedDates}
             setSelectedDates={setSelectedDates}

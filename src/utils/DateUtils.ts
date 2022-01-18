@@ -23,8 +23,6 @@ export const formatDate = (date: Date): string => {
 // returns the first date that APOD started
 // while technically the date is June 6th 1995, looking at the early data, APOD became consistent after the 20th
 // hence start date of June 21st of 1995
-//
-
 export const useFirstAPODDate = () => {
   return useMemo(() => {
     const date = new Date();

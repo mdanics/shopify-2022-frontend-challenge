@@ -15,6 +15,7 @@ import usePosts from "../hooks/usePosts";
 import SkeletonPostCard from "../components/SkeletonPostCard";
 import PostFeed from "../components/PostFeed";
 import LikedPostFeed from "../components/LikedPostFeed";
+import useLikes from "../hooks/useLikes";
 
 const Posts = () => {
   const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.BROWSE);
@@ -24,67 +25,15 @@ const Posts = () => {
     end: new Date(),
   });
 
-  const [likedPosts, setLikedPosts] = useState<{ [id: string]: Post }>({});
-  const [displayPosts, setDisplayPosts] = useState<Post[]>([]);
-
   const { posts, error, isLoading, isFetching } = usePosts({
     shouldFetch: viewMode === ViewModes.BROWSE, // todo - can prob remove this or consolidate
     endDate: selectedDates.end,
   });
 
-  // memoize likes and update on view switch to prevent Posts from immediately disappearing when unliking in the likes view
-  // also has performance benefits
-  const memoedLikes = useMemo(() => {
-    return likedPosts;
-  }, [viewMode]);
-
-  // todo - possibly condense to a useReducer
-  const likePost = (post: Post) => {
-    setLikedPosts((oldPosts) => {
-      return {
-        ...oldPosts,
-        [post.url]: {
-          ...post,
-          liked: true,
-        },
-      };
-    });
-    console.log({ post, likedPosts });
-  };
-
-  const unlikePost = (post: Post) => {
-    setLikedPosts((oldPosts) => {
-      const newPosts = { ...oldPosts };
-      delete newPosts[post.url];
-
-      return newPosts;
-    });
-  };
-
-  // fetch existing likes from local storage
-  useEffect(() => {
-    const likes = localStorage.getItem("likes");
-    if (likes) {
-      setLikedPosts(JSON.parse(likes));
-    }
-  }, []);
-
-  // save liked posts to localstorage to persist on refresh
-  useEffect(() => {
-    localStorage.setItem("likes", JSON.stringify(likedPosts));
-  }, [likedPosts]);
-
-  // update posts that have been liked
-  useEffect(() => {
-    const postsWithLikes: Post[] = posts.map((post) => {
-      return {
-        ...post,
-        liked: likedPosts[post.url] != null,
-      };
-    });
-
-    setDisplayPosts(postsWithLikes);
-  }, [memoedLikes, posts]);
+  const { likePost, unlikePost, likes, hydratedPosts } = useLikes({
+    posts,
+    viewMode,
+  });
 
   console.log("posts", viewMode === ViewModes.BROWSE, { isFetching, viewMode });
 
@@ -106,7 +55,7 @@ const Posts = () => {
         <Layout.Section>
           {viewMode === ViewModes.BROWSE && (
             <PostFeed
-              posts={displayPosts}
+              posts={hydratedPosts}
               isFetching={isFetching}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}
@@ -114,7 +63,7 @@ const Posts = () => {
           )}
           {viewMode === ViewModes.LIKED && (
             <LikedPostFeed
-              posts={Object.values(memoedLikes)}
+              posts={Object.values(likes)}
               isFetching={true}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}

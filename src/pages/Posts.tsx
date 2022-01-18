@@ -39,7 +39,13 @@ const Posts = () => {
   // todo - possibly condense to a useReducer
   const likePost = (post: Post) => {
     setLikedPosts((oldPosts) => {
-      return { ...oldPosts, [post.url]: post };
+      return {
+        ...oldPosts,
+        [post.url]: {
+          ...post,
+          liked: true,
+        },
+      };
     });
     console.log({ post, likedPosts });
   };

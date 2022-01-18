@@ -25,14 +25,18 @@ const PostFeed = ({
 
   return (
     <>
-      {posts?.map((post: Post) => (
-        <PostCard
-          post={post}
-          key={post.url}
-          saveLikedPost={saveLikedPost}
-          unsaveLikePost={unsaveLikePost}
-        />
-      ))}
+      {posts?.map((post: Post) => {
+        if (post.media_type === "image")
+          // only display the APOD images
+          return (
+            <PostCard
+              post={post}
+              key={post.url}
+              saveLikedPost={saveLikedPost}
+              unsaveLikePost={unsaveLikePost}
+            />
+          );
+      })}
 
       {isFetching && (
         <>

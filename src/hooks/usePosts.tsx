@@ -3,13 +3,13 @@ import Post from "../interfaces/Post";
 import { formatDate, subtractDays, useFirstAPODDate } from "../utils/DateUtils";
 
 export interface usePostsProps {
-  shouldFetch: boolean;
+  shouldLoadMore: boolean;
   endDate?: Date;
 }
 
 const FETCH_DAYS = 4;
 
-const usePosts = ({ endDate = new Date() }: usePostsProps) => {
+const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const firstAPODDate = useFirstAPODDate();
 
@@ -55,7 +55,6 @@ const usePosts = ({ endDate = new Date() }: usePostsProps) => {
   };
 
   const fetchMorePosts = async () => {
-    console.log("aaaaa");
     // prevent multiple fetches when at bottom of the page
     if (!isFetchingRef.current) {
       // move the date range by FETCH_DAYS
@@ -92,15 +91,17 @@ const usePosts = ({ endDate = new Date() }: usePostsProps) => {
 
     fetchPosts();
 
-    // setup endless scroll event listener
-    window.addEventListener("scroll", handleScroll);
-    // on component dismount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    if (shouldLoadMore) {
+      // setup endless scroll event listener
+      window.addEventListener("scroll", handleScroll);
+      // on component dismount
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
 
     console.log("end date changed", endDate);
-  }, [endDate]);
+  }, [endDate, shouldLoadMore]);
 
   return {
     posts,

@@ -26,7 +26,7 @@ const Posts = () => {
   });
 
   const { posts, error, isLoading, isFetching } = usePosts({
-    shouldFetch: viewMode === ViewModes.BROWSE, // todo - can prob remove this or consolidate
+    shouldLoadMore: viewMode === ViewModes.BROWSE, // only load more posts when on the browse page
     endDate: selectedDates.end,
   });
 
@@ -64,7 +64,7 @@ const Posts = () => {
           {viewMode === ViewModes.LIKED && (
             <LikedPostFeed
               posts={Object.values(likes)}
-              isFetching={true}
+              isFetching={isFetching}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}
             />

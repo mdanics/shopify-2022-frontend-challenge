@@ -49,8 +49,8 @@ const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
       };
 
   return (
-    <FadeIn>
-      <Card>
+    <Card>
+      <FadeIn>
         <div className={styles.PostImageContainer}>
           <img
             src={post.url}
@@ -76,8 +76,8 @@ const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
             </div>
           </Stack>
         </Card.Section>
-      </Card>
-    </FadeIn>
+      </FadeIn>
+    </Card>
   );
 };
 

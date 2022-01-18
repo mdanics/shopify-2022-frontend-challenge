@@ -7,14 +7,15 @@ import {
   SkeletonDisplayText,
   SkeletonBodyText,
 } from "@shopify/polaris";
+import FadeIn from "../animations/FadeIn";
 import FadeUp from "../animations/FadeUp";
 
 import styles from "./PostCard/PostCard.module.css";
 
 const SkeletonPostCard = () => {
   return (
-    <FadeUp>
-      <Card>
+    <Card>
+      <FadeIn>
         <div className={styles.PostImageContainer}>
           <div className={styles.SkeletonImage} />
         </div>
@@ -27,8 +28,8 @@ const SkeletonPostCard = () => {
             </div>
           </Stack>
         </Card.Section>
-      </Card>
-    </FadeUp>
+      </FadeIn>
+    </Card>
   );
 };
 

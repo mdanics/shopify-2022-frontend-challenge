@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Button,
   FooterHelp,
@@ -31,6 +31,12 @@ const Posts = () => {
     shouldFetch: viewMode === ViewModes.BROWSE, // todo - can prob remove this or consolidate
     endDate: selectedDates.end,
   });
+
+  // memoize likes and update on view switch to prevent Posts from immediately disappearing when unliking in the likes view
+  // also has performance benefits
+  const memoedLikes = useMemo(() => {
+    return likedPosts;
+  }, [viewMode]);
 
   // todo - possibly condense to a useReducer
   const likePost = (post: Post) => {
@@ -78,7 +84,7 @@ const Posts = () => {
     });
 
     setDisplayPosts(postsWithLikes);
-  }, [likedPosts, posts]);
+  }, [memoedLikes, posts]);
 
   console.log("posts", viewMode === ViewModes.BROWSE, { isFetching, viewMode });
 
@@ -108,7 +114,7 @@ const Posts = () => {
           )}
           {viewMode === ViewModes.LIKED && (
             <LikedPostFeed
-              posts={Object.values(likedPosts)}
+              posts={Object.values(memoedLikes)}
               isFetching={true}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}

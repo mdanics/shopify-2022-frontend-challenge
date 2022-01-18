@@ -1,4 +1,11 @@
-import { Card, Button, ActionList, DatePicker, Range } from "@shopify/polaris";
+import {
+  Card,
+  Button,
+  ActionList,
+  DatePicker,
+  Range,
+  Collapsible,
+} from "@shopify/polaris";
 
 import {
   SortDescendingMajor,
@@ -8,6 +15,7 @@ import {
 } from "@shopify/polaris-icons";
 
 import { useCallback, useState } from "react";
+import FadeUp from "../animations/FadeUp";
 import { formatDate, useFirstAPODDate } from "../utils/DateUtils";
 import FeedDatePicker from "./FeedDatePicker";
 
@@ -30,40 +38,51 @@ const ModeSelector = ({
   selectedDates,
 }: ModeSelectorProps) => {
   return (
-    <Card title="Settings">
-      <Card.Section>
-        <p>Select a date to start exploring from or view your Liked Posts</p>
-        <ActionList
-          sections={[
-            {
-              items: [
+    <FadeUp>
+      <Card title="Settings">
+        <FadeUp>
+          <Card.Section>
+            <p>
+              Select a date to start exploring from or view your Liked Posts
+            </p>
+            <ActionList
+              sections={[
                 {
-                  content: "My Liked Posts",
-                  icon: HeartMajor,
-                  onAction: () => setMode(ViewModes.LIKED),
-                  active: viewMode == ViewModes.LIKED,
+                  items: [
+                    {
+                      content: "My Liked Posts",
+                      icon: HeartMajor,
+                      onAction: () => setMode(ViewModes.LIKED),
+                      active: viewMode == ViewModes.LIKED,
+                    },
+                    {
+                      content: "Explore",
+                      helpText: "Starting: " + formatDate(selectedDates.end),
+                      icon: SearchMajor,
+                      onAction: () => setMode(ViewModes.BROWSE),
+                      active: viewMode == ViewModes.BROWSE,
+                    },
+                  ],
                 },
-                {
-                  content: "Explore",
-                  helpText: "Starting: " + formatDate(selectedDates.end),
-                  icon: SearchMajor,
-                  onAction: () => setMode(ViewModes.BROWSE),
-                  active: viewMode == ViewModes.BROWSE,
-                },
-              ],
-            },
-          ]}
-        />
-      </Card.Section>
-      {viewMode == ViewModes.BROWSE && (
-        <Card.Section subdued>
-          <FeedDatePicker
-            selectedDates={selectedDates}
-            setSelectedDates={setSelectedDates}
-          />
-        </Card.Section>
-      )}
-    </Card>
+              ]}
+            />
+          </Card.Section>
+          <Collapsible
+            id="date-picker-collapsible"
+            open={viewMode === ViewModes.BROWSE}
+            transition={{ duration: "300ms", timingFunction: "ease-in-out" }}
+            expandOnPrint
+          >
+            <Card.Section subdued>
+              <FeedDatePicker
+                selectedDates={selectedDates}
+                setSelectedDates={setSelectedDates}
+              />
+            </Card.Section>
+          </Collapsible>
+        </FadeUp>
+      </Card>
+    </FadeUp>
   );
 };
 

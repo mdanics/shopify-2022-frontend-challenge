@@ -16,6 +16,9 @@ import SkeletonPostCard from "../components/SkeletonPostCard";
 import PostFeed from "../components/PostFeed";
 import LikedPostFeed from "../components/LikedPostFeed";
 import useLikes from "../hooks/useLikes";
+import { Footer } from "@shopify/polaris/build/ts/latest/src/components/Modal/components";
+import FadeIn from "../animations/FadeIn";
+import FadeUp from "../animations/FadeUp";
 
 const Posts = () => {
   const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.BROWSE);
@@ -45,12 +48,14 @@ const Posts = () => {
     >
       <Layout>
         <Layout.Section secondary>
+          {/* <FadeIn> */}
           <ModeSelector
             viewMode={viewMode}
             setMode={setViewMode}
             selectedDates={selectedDates}
             setSelectedDates={setSelectedDates}
           />
+          {/* </FadeIn> */}
         </Layout.Section>
         <Layout.Section>
           {viewMode === ViewModes.BROWSE && (
@@ -72,7 +77,12 @@ const Posts = () => {
         </Layout.Section>
 
         <Layout.Section>
-          <FooterHelp>Wow you reached the bottom!</FooterHelp>
+          <FooterHelp>
+            Made with ❤️ by{" "}
+            <a target="_blank" href="https://github.com/mdanics">
+              Matthew Danics
+            </a>
+          </FooterHelp>
         </Layout.Section>
       </Layout>
     </Page>

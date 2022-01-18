@@ -1,4 +1,5 @@
 import { Stack, Spinner } from "@shopify/polaris";
+import FadeUp from "../animations/FadeUp";
 import Post from "../interfaces/Post";
 import PostCard from "./PostCard";
 import SkeletonPostCard from "./SkeletonPostCard";

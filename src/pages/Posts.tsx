@@ -64,7 +64,7 @@ const Posts = () => {
           {viewMode === ViewModes.LIKED && (
             <LikedPostFeed
               posts={Object.values(likes)}
-              isFetching={isFetching}
+              isFetching={false}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}
             />

@@ -3,7 +3,8 @@ import { Card, Button, ActionList, DatePicker, Range } from "@shopify/polaris";
 import {
   SortDescendingMajor,
   HeartMajor,
-  CalendarMajor,
+  SearchMajor,
+  SearchMinor,
 } from "@shopify/polaris-icons";
 
 import { useCallback, useState } from "react";
@@ -37,9 +38,9 @@ const ModeSelector = ({
             {
               items: [
                 {
-                  content: "Endless",
+                  content: "Explore",
                   helpText: "Starting: " + formatDate(selectedDates.end),
-                  icon: SortDescendingMajor,
+                  icon: SearchMajor,
                   onAction: () => setMode(ViewModes.BROWSE),
                   active: viewMode == ViewModes.BROWSE,
                 },

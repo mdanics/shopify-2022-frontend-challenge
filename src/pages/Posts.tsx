@@ -14,6 +14,7 @@ import ModeSelector, { ViewModes } from "../components/ModeSelector";
 import usePosts from "../hooks/usePosts";
 import SkeletonPostCard from "../components/SkeletonPostCard";
 import PostFeed from "../components/PostFeed";
+import LikedPostFeed from "../components/LikedPostFeed";
 
 interface x {
   [id: string]: Post;
@@ -90,7 +91,7 @@ const Posts = () => {
             />
           )}
           {viewMode === ViewModes.LIKED && (
-            <PostFeed
+            <LikedPostFeed
               posts={Object.values(likedPosts)}
               isFetching={true}
               saveLikedPost={likePost}

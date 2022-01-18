@@ -16,10 +16,6 @@ import SkeletonPostCard from "../components/SkeletonPostCard";
 import PostFeed from "../components/PostFeed";
 import LikedPostFeed from "../components/LikedPostFeed";
 
-interface x {
-  [id: string]: Post;
-}
-
 const Posts = () => {
   const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.BROWSE);
 
@@ -28,7 +24,7 @@ const Posts = () => {
     end: new Date(),
   });
 
-  const [likedPosts, setLikedPosts] = useState<x>({});
+  const [likedPosts, setLikedPosts] = useState<{ [id: string]: Post }>({});
   const [displayPosts, setDisplayPosts] = useState<Post[]>([]);
 
   const { posts, error, isLoading, isFetching } = usePosts({

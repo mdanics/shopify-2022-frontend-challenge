@@ -51,7 +51,7 @@ const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
   return (
     <Card>
       <FadeIn>
-        <div className={styles.PostImageContainer}>
+        <div className={styles.PostImageContainer} onDoubleClick={handleLike}>
           <img
             src={post.url}
             alt={post.title}

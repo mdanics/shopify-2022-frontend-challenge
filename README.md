@@ -24,8 +24,9 @@ Try out Spacestagram on Netlify: [https://myspacestagram.netlify.app/](https://m
 - Shopify Polaris (component library)
 - Framer Motion (animation library)
 
+### Demo
 
-
+![Demo Video](https://github.com/mdanics/shopify-2022-frontend-challenge/blob/main/readme-assets/demo.gif?raw=true)
 
 ## Run Locally
 
@@ -52,8 +53,5 @@ Start the server
 ```bash
   yarn start
 ```
-
-
-### Demo
 
 

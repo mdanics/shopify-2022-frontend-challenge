@@ -1,5 +1,5 @@
 import enTranslations from "@shopify/polaris/locales/en.json";
-import { AppProvider } from "@shopify/polaris";
+import { AppProvider, Frame } from "@shopify/polaris";
 import { AnimatePresence } from "framer-motion";
 import FadeIn from "./animations/FadeIn";
 import Posts from "./pages/Posts";
@@ -9,7 +9,9 @@ export default function App() {
     <AppProvider i18n={enTranslations}>
       <AnimatePresence>
         <FadeIn>
-          <Posts />
+          <Frame>
+            <Posts />
+          </Frame>
         </FadeIn>
       </AnimatePresence>
     </AppProvider>

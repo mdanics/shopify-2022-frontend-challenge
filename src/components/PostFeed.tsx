@@ -11,7 +11,6 @@ export interface PostFeedProps {
   isFetching?: boolean;
 }
 
-// todo - fix this prop drilling
 const PostFeed = ({
   posts,
   isFetching,

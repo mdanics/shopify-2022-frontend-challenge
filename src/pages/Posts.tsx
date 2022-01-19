@@ -7,6 +7,7 @@ import {
   Page,
   Spinner,
   Stack,
+  Toast,
 } from "@shopify/polaris";
 import Post from "../interfaces/Post";
 import PostCard from "../components/PostCard";
@@ -45,6 +46,13 @@ const Posts = () => {
       divider
     >
       <Layout>
+        {error && (
+          <Toast
+            content="An unexpected error has occured, please refresh the page."
+            error
+            onDismiss={() => {}}
+          />
+        )}
         <Layout.Section secondary>
           <ModeSelector
             viewMode={viewMode}

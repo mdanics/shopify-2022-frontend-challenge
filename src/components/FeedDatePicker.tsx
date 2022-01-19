@@ -6,7 +6,6 @@ export interface ModeSelectorProps {
   setSelectedDates: (date: Range) => void;
   selectedDates: Range;
 }
-// todo - evaluate prop drilling
 const FeedDatePicker = ({
   selectedDates,
   setSelectedDates,

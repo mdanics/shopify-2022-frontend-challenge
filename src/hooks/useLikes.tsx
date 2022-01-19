@@ -21,8 +21,8 @@ const useLikes = ({ viewMode, posts }: useLikesProps) => {
     return likedPosts;
   }, [viewMode]);
 
-  // todo - possibly condense to a useReducer
   const likePost = (post: Post) => {
+    // add the newly liked post to the hashmap of liked posts, where key is the url
     setLikedPosts((oldPosts) => {
       return {
         ...oldPosts,

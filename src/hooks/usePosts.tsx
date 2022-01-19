@@ -40,7 +40,11 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
       const data = await fetch(
         `https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
       );
-      const posts: Post[] = await data.json();
+      const json = await data.json();
+
+      const posts: Post[] = json.map((p: any) => {
+        return { ...p, date: new Date(p.date.split("-").join("/")) };
+      });
 
       const reversedPosts = posts.reverse(); // reverse so most recent is first
       console.log("hyn", { reversedPosts });

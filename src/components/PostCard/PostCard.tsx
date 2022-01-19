@@ -13,6 +13,7 @@ import { ThumbsUpMajor } from "@shopify/polaris-icons";
 
 import styles from "./PostCard.module.css";
 import FadeIn from "../../animations/FadeIn";
+import { formatDate } from "../../utils/DateUtils";
 interface PostCardProps {
   post: Post;
   saveLikedPost: (post: Post) => void;
@@ -51,7 +52,11 @@ const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
   return (
     <Card>
       <FadeIn>
-        <div className={styles.PostImageContainer} onDoubleClick={handleLike}>
+        <div
+          className={styles.PostImageContainer}
+          onDoubleClick={handleLike}
+          data-testid="image-container"
+        >
           <img
             src={post.url}
             alt={post.title}
@@ -67,7 +72,7 @@ const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
         <Card.Section>
           <Stack vertical spacing="tight">
             <Heading>
-              {post.title} | {post.date}
+              {post.title} | {formatDate(post.date)}
             </Heading>
             <p> {post.explanation} </p>
 

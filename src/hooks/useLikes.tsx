@@ -7,8 +7,12 @@ export interface useLikesProps {
   posts: Post[];
 }
 
+interface PostHashMap {
+  [id: string]: Post;
+}
+
 const useLikes = ({ viewMode, posts }: useLikesProps) => {
-  const [likedPosts, setLikedPosts] = useState<{ [id: string]: Post }>({});
+  const [likedPosts, setLikedPosts] = useState<PostHashMap>({});
   const [hydratedPosts, setHydratedPosts] = useState<Post[]>([]);
 
   // memoize likes and update on view switch to prevent Posts from immediately disappearing when unliking in the likes view
@@ -44,7 +48,13 @@ const useLikes = ({ viewMode, posts }: useLikesProps) => {
   useEffect(() => {
     const likes = localStorage.getItem("likes");
     if (likes) {
-      setLikedPosts(JSON.parse(likes));
+      const json: PostHashMap = JSON.parse(likes);
+
+      Object.values(json).forEach((p: Post) => {
+        json[p.url].date = new Date(json[p.url].date);
+      });
+
+      setLikedPosts(json);
     }
   }, []);
 

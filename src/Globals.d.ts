@@ -1,1 +1,1 @@
-declare module "*.module.css";
+import "jest-fetch-mock";

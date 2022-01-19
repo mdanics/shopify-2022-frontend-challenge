@@ -3,7 +3,7 @@
 
 Spacestagram: Image-sharing from the final frontier with thanks to [NASA's APOD](https://github.com/nasa/apod-api#docs)
 
-Try out Spacestagram on Netlify: [https://myspacestagram.netlify.app/](https://myspacestagram.netlify.app/)
+Try out Spacestagram: [https://myspacestagram.netlify.app/](https://myspacestagram.netlify.app/)
 
 
 

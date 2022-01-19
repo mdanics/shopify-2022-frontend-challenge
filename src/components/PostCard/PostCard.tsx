@@ -58,9 +58,9 @@ const PostCard = ({ post, saveLikedPost, unsaveLikePost }: PostCardProps) => {
             width="100%"
             height="100%"
             style={{
-              objectFit: "cover",
+              objectFit: "contain",
               objectPosition: "center",
-              minHeight: 500,
+              minHeight: 200,
             }}
           />
         </div>

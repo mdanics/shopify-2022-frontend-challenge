@@ -69,8 +69,6 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
       startDateRef.current = subtractDays(startDateRef.current, FETCH_DAYS + 1);
 
       fetchPosts();
-    } else {
-      setError(true);
     }
   };
 

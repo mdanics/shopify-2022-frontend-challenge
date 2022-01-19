@@ -24,7 +24,7 @@ const LikedPostFeed = (props: PostFeedProps) => {
     return (
       <Card>
         <Card.Section>
-          {!imagedLoaded && <SkeletonImage height={550} />}
+          {!imagedLoaded && <SkeletonImage height={400} />}
           {imagedLoaded && (
             <EmptyState
               image={EmptyStateImage}

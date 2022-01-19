@@ -11,6 +11,8 @@ const FETCH_DAYS = 4;
 
 const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [error, setError] = useState(false);
+
   const firstAPODDate = useFirstAPODDate();
 
   const endDateRef = useRef(endDate);
@@ -35,21 +37,26 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
       const formattedStartDate = formatDate(startDateRef.current);
       const formattedEndDate = formatDate(endDateRef.current);
 
-      const data = await fetch(
-        `https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
-      );
-      const json = await data.json();
+      try {
+        const data = await fetch(
+          `https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
+        );
+        const json = await data.json();
 
-      const posts: Post[] = json.map((p: any) => {
-        return { ...p, date: new Date(p.date.split("-").join("/")) };
-      });
+        const posts: Post[] = json.map((p: any) => {
+          return { ...p, date: new Date(p.date.split("-").join("/")) };
+        });
 
-      const reversedPosts = posts.reverse(); // reverse so most recent is first
+        const reversedPosts = posts.reverse(); // reverse so most recent is first
 
-      setPosts((oldPosts) => [...oldPosts, ...reversedPosts]);
+        setPosts((oldPosts) => [...oldPosts, ...reversedPosts]);
+      } catch {
+        // basic error handling
+        setError(true);
+      }
     } else {
-      // todo - handle error
-      console.error("error - startDateRef.current >= firstAPODDate is false ");
+      // basic error handling
+      setError(true);
     }
     setIsFetching(false);
   };
@@ -63,7 +70,7 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
 
       fetchPosts();
     } else {
-      // TODO - handle error
+      setError(true);
     }
   };
 
@@ -101,9 +108,9 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
 
   return {
     posts,
-    isLoading: !posts, // TODO - should also check for error
+    isLoading: !posts || error,
     isFetching,
-    error: null,
+    error,
   };
 };
 

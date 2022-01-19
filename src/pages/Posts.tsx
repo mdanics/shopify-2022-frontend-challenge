@@ -12,7 +12,7 @@ import Post from "../interfaces/Post";
 import PostCard from "../components/PostCard";
 import ModeSelector, { ViewModes } from "../components/ModeSelector";
 import usePosts from "../hooks/usePosts";
-import SkeletonPostCard from "../components/SkeletonPostCard";
+import SkeletonPostCard from "../components/Skeletons/SkeletonPostCard";
 import PostFeed from "../components/PostFeed";
 import LikedPostFeed from "../components/LikedPostFeed";
 import useLikes from "../hooks/useLikes";

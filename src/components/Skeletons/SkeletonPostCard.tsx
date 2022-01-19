@@ -7,18 +7,17 @@ import {
   SkeletonDisplayText,
   SkeletonBodyText,
 } from "@shopify/polaris";
-import FadeIn from "../animations/FadeIn";
-import FadeUp from "../animations/FadeUp";
+import FadeIn from "../../animations/FadeIn";
+import FadeUp from "../../animations/FadeUp";
 
-import styles from "./PostCard/PostCard.module.css";
+import styles from "../PostCard/PostCard.module.css";
+import SkeletonImage from "./SkeletonImage";
 
 const SkeletonPostCard = () => {
   return (
     <Card>
       <FadeIn>
-        <div className={styles.PostImageContainer}>
-          <div className={styles.SkeletonImage} />
-        </div>
+        <SkeletonImage />
         <Card.Section>
           <Stack vertical spacing="tight">
             <SkeletonDisplayText />

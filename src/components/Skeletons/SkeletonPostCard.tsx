@@ -1,14 +1,10 @@
 import {
   Card,
   Stack,
-  Heading,
-  ButtonGroup,
-  buttonFrom,
   SkeletonDisplayText,
   SkeletonBodyText,
 } from "@shopify/polaris";
 import FadeIn from "../../animations/FadeIn";
-import FadeUp from "../../animations/FadeUp";
 
 import styles from "../PostCard/PostCard.module.css";
 import SkeletonImage from "./SkeletonImage";

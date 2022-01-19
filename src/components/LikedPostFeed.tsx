@@ -1,9 +1,8 @@
 import { Card, EmptyState } from "@shopify/polaris";
-import Post from "../interfaces/Post";
 import PostFeed, { PostFeedProps } from "./PostFeed";
 import EmptyStateImage from "../images/LikesEmptyState.png";
 
-import { SearchMajor, SearchMinor } from "@shopify/polaris-icons";
+import { SearchMinor } from "@shopify/polaris-icons";
 import { useState } from "react";
 import SkeletonImage from "./Skeletons/SkeletonImage";
 

@@ -1,27 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Button,
-  FooterHelp,
-  Layout,
-  Link,
-  Page,
-  Spinner,
-  Stack,
-  Toast,
-} from "@shopify/polaris";
-import Post from "../interfaces/Post";
-import PostCard from "../components/PostCard";
+import { useState } from "react";
+import { FooterHelp, Layout, Page, Toast } from "@shopify/polaris";
 import ModeSelector, { ViewModes } from "../components/ModeSelector";
 import usePosts from "../hooks/usePosts";
-import SkeletonPostCard from "../components/Skeletons/SkeletonPostCard";
 import PostFeed from "../components/PostFeed";
 import LikedPostFeed from "../components/LikedPostFeed";
 import useLikes from "../hooks/useLikes";
-import { Footer } from "@shopify/polaris/build/ts/latest/src/components/Modal/components";
-import FadeIn from "../animations/FadeIn";
-import FadeUp from "../animations/FadeUp";
 
-const Posts = () => {
+const Home = () => {
   const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.BROWSE);
 
   const [selectedDates, setSelectedDates] = useState({
@@ -94,4 +79,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default Home;

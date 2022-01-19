@@ -7,7 +7,7 @@ export interface usePostsProps {
   endDate?: Date;
 }
 
-const FETCH_DAYS = 4;
+const FETCH_DAYS = 4; // number of posts to fetch at a time
 
 const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
   const [posts, setPosts] = useState<Post[]>([]);

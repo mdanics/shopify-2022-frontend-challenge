@@ -2,7 +2,7 @@ import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider, Frame } from "@shopify/polaris";
 import { AnimatePresence } from "framer-motion";
 import FadeIn from "./animations/FadeIn";
-import Posts from "./pages/Posts";
+import Home from "./pages/Home";
 
 export default function App() {
   return (
@@ -10,7 +10,7 @@ export default function App() {
       <AnimatePresence>
         <FadeIn>
           <Frame>
-            <Posts />
+            <Home />
           </Frame>
         </FadeIn>
       </AnimatePresence>

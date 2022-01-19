@@ -1,22 +1,9 @@
-import {
-  Card,
-  Button,
-  ActionList,
-  DatePicker,
-  Range,
-  Collapsible,
-} from "@shopify/polaris";
+import { Card, ActionList, Range, Collapsible } from "@shopify/polaris";
 
-import {
-  SortDescendingMajor,
-  HeartMajor,
-  SearchMajor,
-  SearchMinor,
-} from "@shopify/polaris-icons";
+import { HeartMajor, SearchMajor } from "@shopify/polaris-icons";
 
-import { useCallback, useState } from "react";
 import FadeUp from "../animations/FadeUp";
-import { formatDate, useFirstAPODDate } from "../utils/DateUtils";
+import { formatDate } from "../utils/DateUtils";
 import FeedDatePicker from "./FeedDatePicker";
 
 export enum ViewModes {

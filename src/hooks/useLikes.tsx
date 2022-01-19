@@ -7,7 +7,7 @@ export interface useLikesProps {
   posts: Post[];
 }
 
-interface PostHashMap {
+export interface PostHashMap {
   [id: string]: Post;
 }
 

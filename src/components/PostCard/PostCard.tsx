@@ -1,5 +1,4 @@
 import {
-  MediaCard,
   ComplexAction,
   Card,
   Heading,

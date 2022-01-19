@@ -67,6 +67,7 @@ const Posts = () => {
           {viewMode === ViewModes.LIKED && (
             <LikedPostFeed
               posts={Object.values(likes)}
+              handleEmptyStateAction={() => setViewMode(ViewModes.BROWSE)}
               isFetching={false}
               saveLikedPost={likePost}
               unsaveLikePost={unlikePost}

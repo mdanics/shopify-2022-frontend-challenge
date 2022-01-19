@@ -7,9 +7,13 @@ import { SearchMajor, SearchMinor } from "@shopify/polaris-icons";
 import { useState } from "react";
 import SkeletonImage from "./Skeletons/SkeletonImage";
 
-const LikedPostFeed = (props: PostFeedProps) => {
+export interface LikedPostFeedProps extends PostFeedProps {
+  handleEmptyStateAction: () => void;
+}
+
+const LikedPostFeed = (props: LikedPostFeedProps) => {
   // show empty state if we don't have any liked posts
-  const { posts } = props;
+  const { posts, handleEmptyStateAction } = props;
   console.log("here we are", posts);
   const [imagedLoaded, setImageLoaded] = useState(false);
 
@@ -28,7 +32,11 @@ const LikedPostFeed = (props: PostFeedProps) => {
           {imagedLoaded && (
             <EmptyState
               image={EmptyStateImage}
-              action={{ content: "Explore", icon: SearchMinor }}
+              action={{
+                content: "Explore",
+                icon: SearchMinor,
+                onAction: handleEmptyStateAction,
+              }}
               heading="Explore posts"
             >
               <p>

@@ -37,7 +37,6 @@ export const useFirstAPODDate = () => {
     date.setFullYear(1995);
     date.setMonth(5);
     date.setDate(21);
-    console.log({ date });
     return date;
   }, []);
 };

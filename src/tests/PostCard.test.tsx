@@ -49,9 +49,6 @@ describe("<PostCard/>", () => {
   });
 
   it("double clicking the image should like the post", () => {
-    console.log("aaaaa");
-    console.log(wrapper.debug());
-
     const imageContainer = wrapper.findWhere<"div">(
       // @ts-expect-error
       (node) => node.is("div") && node.prop("data-testid") == "image-container"

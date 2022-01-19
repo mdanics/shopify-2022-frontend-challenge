@@ -14,7 +14,6 @@ export interface LikedPostFeedProps extends PostFeedProps {
 const LikedPostFeed = (props: LikedPostFeedProps) => {
   // show empty state if we don't have any liked posts
   const { posts, handleEmptyStateAction } = props;
-  console.log("here we are", posts);
   const [imagedLoaded, setImageLoaded] = useState(false);
 
   // create skeleton for empty state image loading

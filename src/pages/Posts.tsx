@@ -38,8 +38,6 @@ const Posts = () => {
     viewMode,
   });
 
-  console.log("posts", viewMode === ViewModes.BROWSE, { isFetching, viewMode });
-
   return (
     <Page
       title="Spacestagram"

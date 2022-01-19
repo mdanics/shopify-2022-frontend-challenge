@@ -29,14 +29,12 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
 
   const fetchPosts = async () => {
     // ensure user hasn't scrolled past the first day
-    console.log("bbbbb");
 
     setIsFetching(true);
     if (startDateRef.current >= firstAPODDate) {
       const formattedStartDate = formatDate(startDateRef.current);
       const formattedEndDate = formatDate(endDateRef.current);
 
-      console.log("fetching posts...");
       const data = await fetch(
         `https://api.nasa.gov/planetary/apod?api_key=S8OTyVkiD0npa5DTP603E38sCMa2piPgz9cjpH7c&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
       );
@@ -47,10 +45,8 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
       });
 
       const reversedPosts = posts.reverse(); // reverse so most recent is first
-      console.log("hyn", { reversedPosts });
 
       setPosts((oldPosts) => [...oldPosts, ...reversedPosts]);
-      console.log("yum", { posts });
     } else {
       // todo - handle error
       console.error("error - startDateRef.current >= firstAPODDate is false ");
@@ -67,7 +63,6 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
 
       fetchPosts();
     } else {
-      console.error("    if (!isFetchingRef.current)   ");
       // TODO - handle error
     }
   };
@@ -102,8 +97,6 @@ const usePosts = ({ endDate = new Date(), shouldLoadMore }: usePostsProps) => {
         window.removeEventListener("scroll", handleScroll);
       };
     }
-
-    console.log("end date changed", endDate);
   }, [endDate, shouldLoadMore]);
 
   return {

@@ -32,7 +32,6 @@ const useLikes = ({ viewMode, posts }: useLikesProps) => {
         },
       };
     });
-    console.log({ post, likedPosts });
   };
 
   const unlikePost = (post: Post) => {

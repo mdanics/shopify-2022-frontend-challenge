@@ -21,8 +21,6 @@ const PostFeed = ({
   const skeletonPosts = [];
   for (let i = 0; i < 3; i++) skeletonPosts.push(<SkeletonPostCard key={i} />);
 
-  console.log("PostFeed", { isFetching, posts });
-
   return (
     <>
       {posts?.map((post: Post) => {
